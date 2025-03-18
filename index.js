@@ -17,7 +17,7 @@ const Bookmark = mongoose.model("Bookmark", new mongoose.Schema({
 }));
 
 const CLIST_API_KEY = "cc7af34bb22fbb7c2b4804a32e893f931c6a923e";
-const YOUTUBE_API_KEY = "AIzaSyDix15O0tdo7kwdUguzabq_faCDxDaWkTs"; // Replace with your actual API key
+const YOUTUBE_API_KEY = "AIzaSyDix15O0tdo7kwdUguzabq_faCDxDaWkTs"; 
 
 const PLAYLISTS = {
     Codeforces: "PLcXpkI9A-RZLUfBSNp-YQBCOezZKbDSgB",
@@ -107,8 +107,8 @@ const fetchLeetcodeContests = async () => {
 
         const previousContests = allContests
             .filter(contest => contest.startTime * 1000 < now)
-            .sort((a, b) => b.startTime - a.startTime) // Sort descending
-            .slice(0, 10) // Get last 10 past contests
+            .sort((a, b) => b.startTime - a.startTime) 
+            .slice(0, 10) 
             .map(contest => ({
                 site: 'LeetCode',
                 name: contest.title,
@@ -127,7 +127,7 @@ const fetchLeetcodeContests = async () => {
 const calculateDuration = (startDate, endDate) => {
     if (!startDate || !endDate) {
         console.error("Missing start or end date:", { startDate, endDate });
-        return 0; // Return duration in seconds
+        return 0; 
     }
 
     const start = new Date(startDate);
@@ -138,7 +138,7 @@ const calculateDuration = (startDate, endDate) => {
         return 0;
     }
 
-    return Math.floor((end - start) / 1000); // Return duration in seconds
+    return Math.floor((end - start) / 1000); 
 };
 
 const fetchCodechefContests = async () => {
@@ -153,18 +153,18 @@ const fetchCodechefContests = async () => {
             site: 'CodeChef',
             name: contest.contest_name,
             startTime: new Date(contest.contest_start_date).toISOString(),
-            duration: calculateDuration(contest.contest_start_date, contest.contest_end_date), // Now returns seconds
+            duration: calculateDuration(contest.contest_start_date, contest.contest_end_date), 
             url: `https://www.codechef.com/${contest.contest_code}`
         }));
 
         const previousContests = response.data.past_contests
-            .sort((a, b) => new Date(b.contest_start_date) - new Date(a.contest_start_date)) // Sort descending
-            .slice(0, 10) // Get last 10 past contests
+            .sort((a, b) => new Date(b.contest_start_date) - new Date(a.contest_start_date)) 
+            .slice(0, 10) 
             .map(contest => ({
                 site: 'CodeChef',
                 name: contest.contest_name,
                 startTime: new Date(contest.contest_start_date),
-                duration: calculateDuration(contest.contest_start_date, contest.contest_end_date), // Now returns seconds
+                duration: calculateDuration(contest.contest_start_date, contest.contest_end_date), 
                 url: `https://www.codechef.com/${contest.contest_code}`
             }));
 
