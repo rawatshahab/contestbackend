@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
-const cheerio  = require('cheerio');
+
 app.use(express.json());
 const mongoose = require("mongoose");
 mongoose.connect("mongodb+srv://mayank2402:Qwe%401234@collegeproject.hu9lxtu.mongodb.net/?retryWrites=true&w=majority&appName=CollegeProject", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -16,61 +16,13 @@ const Bookmark = mongoose.model("Bookmark", new mongoose.Schema({
   url: String
 }));
 
-const CLIST_API_KEY = "cc7af34bb22fbb7c2b4804a32e893f931c6a923e";
+
 const YOUTUBE_API_KEY = "AIzaSyDix15O0tdo7kwdUguzabq_faCDxDaWkTs"; 
 
 const PLAYLISTS = {
     Codeforces: "PLcXpkI9A-RZLUfBSNp-YQBCOezZKbDSgB",
     LeetCode: "PLcXpkI9A-RZI6FhydNz3JBt_-p_i25Cbr",
     CodeChef: "PLcXpkI9A-RZIZ6lsE0KCcLWeKNoG45fYr"
-};
-
-const fetchClistContests = async (platform) => {
-    try {
-        const response = await axios.get("https://clist.by/api/v1/contest/", {
-            params: {
-                
-                resource: platform,
-                upcoming: true,
-                order_by: "start",
-                api_key: CLIST_API_KEY
-            },
-            headers: {
-                Authorization: `Token ${CLIST_API_KEY}`
-            }
-        });
-
-        const upcomingContests = response.data.objects.map(contest => ({
-            site: platform,
-            name: contest.event,
-            startTime: contest.start,
-            duration: contest.duration,
-            url: contest.href
-        }));
-
-        const pastResponse = await axios.get("https://clist.by/api/v1/contest/", {
-            params: {
-                resource: platform,
-                upcoming: false,
-                order_by: "-start",
-                limit: 10,
-                api_key: CLIST_API_KEY
-            }
-        });
-
-        const previousContests = pastResponse.data.objects.map(contest => ({
-            site: platform,
-            name: contest.event,
-            startTime: contest.start,
-            duration: contest.duration,
-            url: contest.href
-        }));
-
-        return { upcomingContests, previousContests };
-    } catch (error) {
-        console.error(`Error fetching ${platform} contests:`, error);
-        return { upcomingContests: [], previousContests: [] };
-    }
 };
 
 const fetchLeetcodeContests = async () => {
@@ -205,6 +157,7 @@ const fetchYouTubeSolutions = async () => {
         return [];
     }
 };
+
 
 app.post("/api/bookmark", async (req, res) => {
     try {
