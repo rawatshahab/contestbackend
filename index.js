@@ -7,7 +7,9 @@ app.use(cors());
 
 app.use(express.json());
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://mayank2402:Qwe%401234@collegeproject.hu9lxtu.mongodb.net/?retryWrites=true&w=majority&appName=CollegeProject", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://mayank2402:Qwe%401234@collegeproject.hu9lxtu.mongodb.net/?retryWrites=true&w=majority&appName=CollegeProject", { useNewUrlParser: true, useUnifiedTopology: true })
+
+
 const Bookmark = mongoose.model("Bookmark", new mongoose.Schema({
   name: String,
   site: String,
@@ -157,7 +159,7 @@ const fetchYouTubeSolutions = async () => {
         return [];
     }
 };
-
+  
 
 
 
